@@ -10,9 +10,8 @@ namespace AlaadinWebAPIs.Repositories
         {
             _aladin_Prp_DbContext = aladin_Prp_DbContext;
         }
-        public Result Add(Role objAdd, string RoleId)
+        public Result Add(Role objAdd)
         {
-            objAdd.Id = RoleId;
             _aladin_Prp_DbContext.Roles.Add(objAdd);
             return new Result { Message="added successfully"};
         }

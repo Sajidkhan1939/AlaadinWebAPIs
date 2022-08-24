@@ -7,10 +7,10 @@ namespace AlaadinWebAPIs.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ListingController : ControllerBase
+    public class RoleController : ControllerBase
     {
         private readonly IRole _roleRepo;
-        public ListingController(IRole RoleRepo)
+        public RoleController(IRole RoleRepo)
         {
             this._roleRepo= RoleRepo;
         }
@@ -19,6 +19,12 @@ namespace AlaadinWebAPIs.Controllers
         public IActionResult GetAll()
         {
             return Ok(_roleRepo.GetAll());
+        }
+        [Route("AddRole")]
+        [HttpPost]
+        public IActionResult Post(Role objAdd)
+        {
+            return Ok(_roleRepo.Add(objAdd));
         }
     }
 }
