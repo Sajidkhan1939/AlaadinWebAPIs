@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace AlaadinWebAPIs.Models
 {
-    public partial class Aladin_prp_dbContext : DbContext
+    public partial class Aladin_prp_dbContext : IdentityDbContext<AuthUser>
     {
         public Aladin_prp_dbContext()
         {
@@ -15,7 +16,7 @@ namespace AlaadinWebAPIs.Models
             : base(options)
         {
         }
-
+     
         public virtual DbSet<CustomField> CustomFields { get; set; } = null!;
         public virtual DbSet<Faq> Faqs { get; set; } = null!;
         public virtual DbSet<Listing> Listings { get; set; } = null!;
@@ -31,13 +32,13 @@ namespace AlaadinWebAPIs.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=localhost;Database=Aladin_prp_db;Trusted_Connection=True;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<CustomField>(entity =>
             {
                 entity.Property(e => e.Id).HasMaxLength(128);
