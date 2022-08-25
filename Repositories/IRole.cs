@@ -5,10 +5,10 @@ namespace AlaadinWebAPIs.Repositories
 {
     public interface IRole
     {
-        Result GetAll();
+         List<Role> GetAll();
         Result Add(Role objAdd);
         Result Update(Role objAdd, string UserId);
-        Result ReadByGunsId(string Id);
+        Result ReadById(string Id);
         Result Delete(string Id);
     }
 }

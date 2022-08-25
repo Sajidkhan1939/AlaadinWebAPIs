@@ -18,13 +18,48 @@ namespace AlaadinWebAPIs.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_roleRepo.GetAll());
+            try
+            {
+                return Ok(_roleRepo.GetAll());
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message, ex);
+            }
+
+
+        }
+
+        [Route("ReadById")]
+        [HttpGet]
+        public IActionResult ReadById(string Id)
+        {
+            try
+            {
+                return Ok(_roleRepo.ReadById(Id));
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message,ex);
+            }
+            
         }
         [Route("AddRole")]
         [HttpPost]
         public IActionResult Post(Role objAdd)
         {
-            return Ok(_roleRepo.Add(objAdd));
+            try
+            {
+                return Ok(_roleRepo.Add(objAdd));
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message, ex);
+            }
+
         }
     }
 }

@@ -12,29 +12,78 @@ namespace AlaadinWebAPIs.Repositories
         }
         public Result Add(Role objAdd)
         {
-            _aladin_Prp_DbContext.Roles.Add(objAdd);
-            return new Result { Message="added successfully"};
-        }
+            try
+            {
+                if (_aladin_Prp_DbContext.Roles==null)
+                {
+                    return new Result { Status = false, Message = "Role data is null" };
+                }
+                    _aladin_Prp_DbContext.Add<Role>(objAdd);
+                _aladin_Prp_DbContext.SaveChanges();
+                    return new Result { Status = true, Message = "Role added Succesfully" };
+            }
+            catch (Exception ex)
+            {
 
+                throw new Exception(ex.Message, ex);
+            }
+        }
         public Result Delete(string Id)
         {
             throw new NotImplementedException();
         }
 
-        public Result GetAll()
+        public  List<Role> GetAll()
         {
-            IList<Role> roles = _aladin_Prp_DbContext.Roles.ToList();
-            return new Result { Status=true };
+            List<Role> rolelist;
+            try
+            {
+                rolelist = _aladin_Prp_DbContext.Set<Role>().ToList();
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message,ex);
+            }
+            return rolelist;
         }
 
-        public Result ReadByGunsId(string Id)
+        public Result ReadById(string Id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(Id))
+                {
+                  
+                    Role role= _aladin_Prp_DbContext.Find<Role>(Id);
+                    return new Result
+                    {
+                        Message = "Success",
+                        Status = true,
+                        Data = role
+                    };
+                }
+                else
+                {
+                    return new Result
+                    { Status = false, Message = "id require" };
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message,ex);
+            }
         }
 
         public Result Update(Role objAdd, string UserId)
         {
+
             throw new NotImplementedException();
+        }
+        private bool RoleExists(string id)
+        {
+            return (_aladin_Prp_DbContext?.Roles.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

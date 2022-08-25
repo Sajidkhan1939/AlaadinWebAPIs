@@ -13,8 +13,8 @@ builder.Services.AddDbContext<Aladin_prp_dbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("Aladin_prp_db")));
 builder.Services.AddTransient<IRole,RoleRepo>();
 // Configure Identity
-builder.Services.AddIdentity<AuthUser, IdentityRole>()
-    .AddEntityFrameworkStores<Aladin_prp_dbContext>();
+/*builder.Services.AddIdentity<AuthUser, IdentityRole>()
+    .AddEntityFrameworkStores<Aladin_prp_dbContext>();*/
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
