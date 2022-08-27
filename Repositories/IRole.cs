@@ -7,7 +7,7 @@ namespace AlaadinWebAPIs.Repositories
     {
          List<Role> GetAll();
         Result Add(Role objAdd);
-        Result Update(Role objAdd, string UserId);
+        Result Update(Role role, string id);
         Result ReadById(string Id);
         Result Delete(string Id);
     }

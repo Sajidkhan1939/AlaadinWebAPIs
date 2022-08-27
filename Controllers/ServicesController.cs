@@ -21,63 +21,50 @@ namespace AlaadinWebAPIs.Controllers
         }
 
         // GET: api/Services
+        [Route("GetAll")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Service>>> GetServices()
+      public IActionResult GetAll()
         {
-          if (_context.Services == null)
-          {
-              return NotFound();
-          }
-            return await _context.Services.ToListAsync();
+            var list = _context.Services.ToList();
+            return Ok(list);
         }
 
         // GET: api/Services/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Service>> GetService(string id)
+        [Route("GetById")]
+        [HttpGet]
+        public IActionResult GetServicesById(string id)
         {
-          if (_context.Services == null)
-          {
-              return NotFound();
-          }
-            var service = await _context.Services.FindAsync(id);
-
-            if (service == null)
+            var get = _context.Services.FirstOrDefault(s => s.Id == id);
+            return Ok(get);
+        }
+        [Route("AddService")]
+        [HttpPost]
+        public IActionResult CreateService([FromBody] Service service)
+        {
+            if(ServiceExists(service.Id))
             {
-                return NotFound();
+                return BadRequest("alreadyexist");
             }
-
-            return service;
+            else
+            {
+                this._context.Add<Service>(service);
+                this._context.SaveChanges();
+            }
+            return Ok(service);
         }
 
         // PUT: api/Services/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutService(string id, Service service)
+        [Route("Dlete")]
+        [HttpDelete]
+        public IActionResult DeleteService(string id)
         {
-            if (id != service.Id)
+            var service = _context.Services.FirstOrDefault(s => s.Id == id);
+            if(service != null)
             {
-                return BadRequest();
+                this._context.Remove(service);
             }
-
-            _context.Entry(service).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ServiceExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Ok();
         }
 
         // POST: api/Services
@@ -110,7 +97,7 @@ namespace AlaadinWebAPIs.Controllers
         }
 
         // DELETE: api/Services/5
-        [HttpDelete("{id}")]
+      /*  [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteService(string id)
         {
             if (_context.Services == null)
@@ -127,7 +114,7 @@ namespace AlaadinWebAPIs.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
-        }
+        }*/
 
         private bool ServiceExists(string id)
         {

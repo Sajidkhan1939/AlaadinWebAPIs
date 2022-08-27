@@ -18,7 +18,7 @@ namespace AlaadinWebAPIs.Repositories
                 {
                     return new Result { Status = false, Message = "Role data is null" };
                 }
-                    _aladin_Prp_DbContext.Add<Role>(objAdd);
+                 _aladin_Prp_DbContext.Roles.Add(objAdd);
                 _aladin_Prp_DbContext.SaveChanges();
                     return new Result { Status = true, Message = "Role added Succesfully" };
             }
@@ -55,7 +55,7 @@ namespace AlaadinWebAPIs.Repositories
                 if (!string.IsNullOrWhiteSpace(Id))
                 {
                   
-                    Role role= _aladin_Prp_DbContext.Find<Role>(Id);
+                    Role role = _aladin_Prp_DbContext.Find<Role>(Id);
                     return new Result
                     {
                         Message = "Success",
@@ -76,10 +76,26 @@ namespace AlaadinWebAPIs.Repositories
             }
         }
 
-        public Result Update(Role objAdd, string UserId)
+        public Result Update(Role role, string id)
         {
 
-            throw new NotImplementedException();
+            try
+            {
+                if(id != role.Id)
+                {
+                    return new Result { Message="Id is not valid",Status = false,Data=role };
+                }
+                else 
+                {
+                   //var update = _aladin_Prp_DbContext.Roles.Update(s=>s.ti)
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return new Result { Message = "Id is not valid", Status = false, Data = role };
         }
         private bool RoleExists(string id)
         {

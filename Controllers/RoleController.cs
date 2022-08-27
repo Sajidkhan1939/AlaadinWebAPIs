@@ -25,7 +25,7 @@ namespace AlaadinWebAPIs.Controllers
             catch (Exception ex)
             {
 
-                throw new Exception(ex.Message, ex);
+                return BadRequest(ex.Message);
             }
 
 
@@ -33,7 +33,7 @@ namespace AlaadinWebAPIs.Controllers
 
         [Route("ReadById")]
         [HttpGet]
-        public IActionResult ReadById(string Id)
+        public IActionResult ReadById(string Id, Role role)
         {
             try
             {
@@ -48,7 +48,7 @@ namespace AlaadinWebAPIs.Controllers
         }
         [Route("AddRole")]
         [HttpPost]
-        public IActionResult Post(Role objAdd)
+        public IActionResult Post([FromBody] Role objAdd)
         {
             try
             {
