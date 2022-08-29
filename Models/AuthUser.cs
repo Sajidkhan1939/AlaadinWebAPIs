@@ -2,7 +2,7 @@
 
 namespace AlaadinWebAPIs.Models
 {
-    public class AuthUser: IdentityUser
+    public class AuthUser
     {
 
         public string? Username { get; set; }
