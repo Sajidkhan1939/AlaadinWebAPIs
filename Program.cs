@@ -14,8 +14,14 @@ builder.Services.AddControllers();
 // Get connect with connection string from appsettings.json
 builder.Services.AddDbContext<Aladin_prp_dbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("Aladin_prp_db")));
-var _Jwtsettings = builder.Configuration.GetSection("Jwtsettings");
-builder.Services.Configure<Jwtsettings>(_Jwtsettings);
+
+builder.Services.AddTransient<IRole,RoleRepo>();
+// Configure Identity
+/*builder.Services.AddIdentity<AuthUser, IdentityRole>()
+    .AddEntityFrameworkStores<Aladin_prp_dbContext>();*/
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 // Ad Authentication
 var _authkey = builder.Configuration.GetValue<string>("Jwtsettings:securitykey");
 builder.Services.AddAuthentication(item =>
@@ -26,20 +32,17 @@ builder.Services.AddAuthentication(item =>
 {
     item.RequireHttpsMetadata = true;
     item.SaveToken = true;
-    item.TokenValidationParameters = new TokenValidationParameters() {
+    item.TokenValidationParameters = new TokenValidationParameters()
+    {
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authkey)),
         ValidateIssuer = false,
         ValidateAudience = false
     };
 });
-builder.Services.AddTransient<IRole,RoleRepo>();
-// Configure Identity
-/*builder.Services.AddIdentity<AuthUser, IdentityRole>()
-    .AddEntityFrameworkStores<Aladin_prp_dbContext>();*/
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+var _Jwtsettings = builder.Configuration.GetSection("Jwtsettings");
+builder.Services.Configure<Jwtsettings>(_Jwtsettings);
+
 builder.Services.AddCors(c =>
 {
     c.AddPolicy("AllowOrigin", option => option.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
