@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace AlaadinWebAPIs.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -15,6 +14,7 @@ namespace AlaadinWebAPIs.Controllers
         {
             _context = context;
         }
+        [Authorize]
         [Route("GetAll")]
         [HttpGet]
         public IActionResult GetAll()

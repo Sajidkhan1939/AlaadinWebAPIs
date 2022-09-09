@@ -72,5 +72,24 @@ namespace AlaadinWebAPIs.Controllers
             }
             return Ok();
         }
+        [Route("V1/Search")]
+        [HttpGet]
+        public IActionResult Search(string title)
+        {
+            try
+            {
+                if ( _context.Listings!= null)
+                {
+                   var res = _context.Listings.FirstOrDefault(x => x.Title == title);
+                    return Ok(res);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message); 
+            }
+            return Ok();
+        }
     }
 }
